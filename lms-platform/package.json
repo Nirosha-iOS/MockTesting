@@ -1,0 +1,20 @@
+{
+  "name": "lms-platform",
+  "private": true,
+  "workspaces": [
+    "packages/design-tokens",
+    "admin-web",
+    "mobile"
+  ],
+  "scripts": {
+    "postinstall": "npm run build -w @lms/design-tokens",
+    "build:tokens": "npm run build -w @lms/design-tokens",
+    "build:admin": "npm run build -w admin-web",
+    "test:admin": "npm run test -w admin-web",
+    "test:mobile": "npm run test -w mobile",
+    "test": "npm run test:admin && npm run test:mobile"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

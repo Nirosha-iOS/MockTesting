@@ -1,0 +1,1047 @@
+AI Agent Ready Specification: LMS Admin + Mobile Platform
+1. Objective
+
+Build a role-based Lead Management System with:
+
+Admin web application
+React Native mobile application
+Java Spring Boot backend
+Shared design system and centralized theming
+Strong security, audit, lifecycle, reporting, and offline capabilities
+
+This specification is intended for AI agents generating code, architecture, database design, APIs, screens, and workflows.
+
+2. Final Technology Decision
+Backend
+Java Spring Boot
+Spring Security
+OAuth2 / OIDC / SSO
+JWT / refresh token
+PostgreSQL
+Redis
+Object storage for files
+Scheduler/jobs for SLA, reminders, inactivity, report scheduling
+Optional messaging: Kafka or RabbitMQ
+Optional search: Elasticsearch / OpenSearch
+Admin Application
+React web app preferred
+Responsive desktop/tablet layout
+Consumes backend REST APIs
+Mobile Application
+React Native
+Offline local database: SQLite or Realm
+Push notifications
+Camera/file upload support
+Sync engine
+3. Product Split
+Admin App Purpose
+
+For configuration, operations, assignment, dashboards, campaigns, reports, approvals, and customer oversight.
+
+Mobile App Purpose
+
+For field agents to capture leads, manage assigned leads, perform follow-ups, handle meetings/calls/tasks, upload files, and work offline.
+
+4. Role Model
+4.1 Roles
+Super Admin
+Operations Admin / LMS Admin
+Campaign Manager
+ARC
+Team Manager
+GSM
+HOA
+Agent / Field User
+4.2 Role Principles
+Every role must have menu visibility control
+Every role must have API authorization control
+Every role must have dashboard widget scope control
+Every role must have row-level data access by hierarchy
+Sensitive fields must support field-level masking by role
+5. Role-Wise Functional Ownership
+5.1 Super Admin
+Main responsibilities
+user management
+role and permission management
+hierarchy management
+global configurations
+security settings
+integrations
+audit and compliance visibility
+report and dashboard administration
+environment/system monitoring
+Admin modules
+authentication settings
+user and role management
+hierarchy configuration
+menu personalization rules
+configuration masters
+template governance
+audit logs
+system health and integration settings
+data retention and compliance controls
+Dashboard widgets
+active users
+failed logins
+MFA usage
+open system alerts
+total leads in system
+upload job failures
+sync health
+audit event summary
+SLA breach global count
+report scheduler status
+API/system health
+5.2 Operations Admin / LMS Admin
+Main responsibilities
+lead operations
+assignment control
+SLA setup
+routing configuration
+DNC and consent operations
+file policy and validations
+lifecycle administration
+upload monitoring
+Admin modules
+lead management
+assignment and reassignment
+lead field configuration
+lifecycle configuration
+notification setup
+DNC setup
+consent expiry setup
+territory and routing rules
+bulk import monitoring
+Dashboard widgets
+leads created today
+unassigned leads
+duplicate leads
+DNC rejects
+consent pending
+OCR pending/failed
+inactive leads
+SLA breaches
+upload status
+rejected imports
+notification failures
+5.3 Campaign Manager
+Main responsibilities
+create and manage campaigns
+upload campaign leads
+map upload fields
+campaign attribution
+track campaign performance
+Admin modules
+campaign create/edit/delete/archive
+campaign lead upload
+file column mapping
+validation results
+campaign assignment queue
+UTM management
+A/B testing management
+campaign reports
+Dashboard widgets
+active campaigns
+leads uploaded today
+valid vs rejected records
+campaign-wise lead count
+source performance
+campaign conversion
+UTM performance
+A/B test summary
+pending assignment by campaign
+5.4 ARC
+Main responsibilities
+manage ARC customer and lead portfolio
+customer follow-up oversight
+referral tracking
+retention visibility
+Admin modules
+ARC dashboard
+lead/customer list
+customer details
+policy view
+follow-up and next best action view
+referral tracking
+Dashboard widgets
+assigned leads
+assigned customers
+follow-ups pending
+referrals generated
+life events upcoming
+retention alerts
+policy summary
+conversion ratio
+inactive accounts
+5.5 Team Manager
+Main responsibilities
+team lead monitoring
+manual assignment and reassignment
+productivity tracking
+SLA breach review
+approval actions
+Admin modules
+team dashboard
+lead list by team
+assignment queue
+reassignment approval
+activity monitor
+productivity reports
+goal tracking
+Dashboard widgets
+team lead count
+new leads
+overdue follow-ups
+inactive leads
+meetings today
+agent productivity
+conversion by agent
+reassignment requests
+SLA breaches
+lead aging buckets
+5.6 GSM
+Main responsibilities
+group/regional performance visibility
+escalation monitoring
+campaign and conversion analysis
+Admin modules
+GSM dashboard
+regional lead reports
+campaign summary
+team comparison reports
+escalation views
+Dashboard widgets
+region lead summary
+region conversion rate
+campaign effectiveness
+team comparison
+productivity by manager
+SLA breach trend
+inactive lead trend
+sales trend
+source-wise performance
+5.7 HOA
+Main responsibilities
+strategic business oversight
+executive KPI review
+campaign ROI and business growth visibility
+Admin modules
+HOA dashboard
+executive reports
+sales and campaign analytics
+customer growth and churn views
+Dashboard widgets
+total pipeline
+total sales
+conversion ratio
+campaign ROI
+productivity summary
+churn risk summary
+customer growth
+referral generation
+SLA compliance
+strategic alerts
+5.8 Agent / Field User
+Main responsibilities
+mobile login
+lead creation
+assigned lead handling
+call/meeting/task/note actions
+file upload
+reminders and follow-ups
+offline work and sync
+Mobile modules
+login
+home dashboard
+create lead
+assigned leads
+lead detail
+activities
+customer quick view
+notifications
+calendar/tasks
+sync status
+Mobile dashboard widgets
+my new leads
+overdue leads
+today follow-ups
+today meetings
+pending tasks
+hot leads
+recently assigned
+sync pending count
+notifications count
+6. Functional Split by Application
+6.1 Admin Application Modules
+A. Authentication and Access
+SSO via AOL
+OAuth2 / OIDC SSO
+MFA / adaptive MFA
+logout
+session timeout / idle lock / re-auth
+role-based access
+hierarchy-based privilege
+field-level masking
+SCIM provisioning/deprovisioning
+B. User / Role / Hierarchy
+user create/update/deactivate
+assign role
+define hierarchy
+data visibility scope
+role-permission matrix
+C. Navigation and User Experience
+role-based menu
+searchable menu
+profile view
+profile picture upload
+localization
+white-labelling
+theming
+accessibility
+D. Dashboards
+ARC dashboard
+Team Manager dashboard
+GSM dashboard
+HOA dashboard
+operations dashboard
+drill-through and filters by source/time/team/campaign
+E. Leads
+manual lead creation
+email-to-lead intake
+campaign upload leads
+referral leads
+roadshow/self-generated leads visibility
+lead validation rules
+lead list and advanced filters
+lead details
+deduplication and merge
+DNC validation
+consent management
+file upload/preview
+geocoding and address validation view
+lead history log
+F. Assignment
+manual assignment
+bulk assignment
+reassignment with approval
+round robin
+priority routing
+territory routing
+inactive lead reassignment
+geofence and location rules
+working hours / holiday routing
+G. Lifecycle and SLA
+stage configuration
+stage transition rules
+mandatory fields by stage
+SLA timers
+rotting and aging color rules
+breach alerts
+auto stage update on events
+H. Activity Monitoring
+view calls, meetings, tasks, notes
+monitor feedback
+follow-up compliance
+inactivity detection
+productivity metrics
+I. Campaigns
+campaign CRUD
+upload leads
+field mapping
+UTM tracking
+attribution
+A/B testing
+campaign performance dashboards
+J. Customer 360
+customer list
+customer details
+policy details
+fact-find
+segmentation
+lifecycle view
+next best actions
+life events
+assign customer to ARC
+customer referrals
+duplicate detection
+churn insight visibility
+K. Goals
+define goals
+assign goals
+track progress
+compare target vs actual
+L. Calendar
+month/week/day views
+create meeting/call/task
+Exchange sync
+reminders
+timezone-aware scheduling
+M. Notifications
+in-app notifications
+SMS
+email
+push
+WhatsApp
+notification center
+template config
+notification expiry after 7 days
+role-based notification rules
+N. Reports
+predefined reports
+activity reports
+sales reports
+CSV export
+scheduled reports
+email distribution
+role-based access
+row-level security
+custom KPI builder
+calculated metrics
+commission/incentive calculations
+O. Configuration
+configure campaigns
+configure leads
+configure customers
+configure notifications
+configure lifecycle rules
+custom fields and layouts
+routing rules
+working hours and holidays
+DNC settings
+consent renewal rules
+file validation rules
+P. Security / Compliance / Audit
+encryption settings visibility
+secrets and key usage visibility
+immutable audit logs
+SIEM export visibility
+data retention policy visibility
+right to access/erase workflows
+backup and DR settings visibility
+API rate limits and throttling settings
+6.2 Mobile Application Modules
+A. Login and Session
+login
+MFA/OTP
+logout
+role-aware home
+secure token handling
+B. Home Dashboard
+assigned lead summary
+overdue items
+today follow-ups
+meetings today
+pending tasks
+hot leads
+sync status
+quick actions
+C. Lead Capture
+create lead
+source selection
+product interest
+location capture
+consent capture
+upload consent card
+referral lead capture
+roadshow/self-generated lead capture
+online/offline save
+D. Assigned Leads
+my leads list
+search and filters
+stage/aging/source filters
+DNC warning
+rotting color indicator
+pipeline/kanban optional view
+E. Lead Detail
+personal details
+contact details
+source and product
+lifecycle stage
+assignment details
+notes and history
+files
+consent status
+next follow-up
+DNC indicator
+EzSub status
+F. Activities
+call
+SMS
+email
+WhatsApp
+meeting creation
+meeting feedback
+task creation
+note creation
+call logging
+click-to-call / CTI support
+G. Notifications
+push notifications
+in-app alerts
+new assignment alerts
+follow-up reminders
+overdue reminders
+reassignment notifications
+sync alerts
+H. Calendar and Tasks
+daily schedule
+meetings
+follow-ups
+tasks
+visit planning
+route planning
+I. Customer Quick View
+customer summary
+policy summary
+fact-find entry
+next best action
+add customer referral
+life event alerts
+J. Offline and Sync
+local database
+queue pending transactions
+retry failed syncs
+delta sync
+conflict resolution
+sync audit/status
+K. File and Camera
+upload files
+upload consent card
+attach media/documents
+preview basic files
+L. Location and Territory
+capture current location
+territory-based visibility
+geofence validation support
+address capture and validation support
+7. End-to-End Business Flows
+7.1 Access Flow
+user opens app
+authenticates with SSO/login
+MFA if required
+backend loads role, hierarchy, permissions
+dashboard/menu rendered
+session and audit started
+7.2 Lead Creation Flow
+lead created from mobile/admin/upload/referral/campaign/external email
+validate required fields
+validate phone/email formats
+run DNC check
+run duplicate check
+validate/store consent
+save lead
+initialize lifecycle stage = New
+write history log
+7.3 Lead Assignment Flow
+lead enters assignment queue
+assignment engine checks territory/priority/round robin/hierarchy/manual override
+assign lead to user/team
+notification sent
+assignment history logged
+7.4 Agent Action Flow
+agent opens assigned lead
+performs call/meeting/task/note/message action
+activity saved online/offline
+lifecycle updated if rules match
+reminder and next follow-up generated
+manager dashboard updated
+7.5 Aging and Inactivity Flow
+scheduler checks pending leads periodically
+identify overdue or inactive leads
+mark aging/rotting bucket
+send alerts to agent/manager
+allow reassignment/escalation
+reflect in dashboards and reports
+7.6 Campaign Flow
+campaign manager creates campaign
+uploads lead file
+field mapping applied
+system validates records
+valid leads created
+rejected rows shown separately
+assignment engine runs
+campaign performance tracked
+7.7 Conversion Flow
+lead progresses to success/qualified stage
+fact-find completed
+policy or customer data linked
+customer profile created
+customer 360 becomes available
+referral and retention workflows enabled
+7.8 Reporting Flow
+transactional data stored
+dashboard/report APIs aggregate by role scope
+reports generated with row-level security
+exports and scheduled delivery handled
+8. Backend Architecture Specification
+8.1 Architectural Style
+
+Use a modular monolith with strong boundaries first. Split to microservices only when scale requires it.
+
+Core principles
+domain-driven module boundaries
+clean architecture
+SOLID principles
+shared kernel only for common abstractions
+no direct cross-module repository access
+communication through application services/events/interfaces
+DTOs for API contracts
+entity encapsulation in domain layer
+8.2 Suggested Backend Modules
+auth
+user
+role-permission
+hierarchy
+lead
+assignment
+lifecycle
+activity
+campaign
+customer
+goals
+calendar
+notification
+reports
+configuration
+dashboard
+files
+audit
+search
+integrations
+offline-sync
+compliance
+ai-insights
+8.3 Clean Architecture Layers per Module
+
+Each module should contain:
+
+domain
+application
+infrastructure
+presentation
+domain layer
+entities
+value objects
+domain services
+repository interfaces
+business rules
+application layer
+use cases
+command/query handlers
+DTOs
+orchestration services
+validators
+infrastructure layer
+JPA repositories
+external API clients
+message publishers
+file storage adapters
+Redis/search adapters
+presentation layer
+REST controllers
+request/response models
+mappers
+exception handlers
+8.4 SOLID Rules
+Single Responsibility: one service/use case per business purpose
+Open/Closed: support extension via strategy/policy interfaces
+Liskov Substitution: interchangeable implementations for integrations and storage
+Interface Segregation: smaller focused interfaces per concern
+Dependency Inversion: depend on interfaces, not concrete adapters
+8.5 Cross-Cutting Standards
+centralized exception handling
+audit interceptors
+role and field-level authorization
+request tracing/correlation IDs
+validation framework
+standard API response wrapper
+optimistic locking where needed
+soft delete where required
+immutable audit tables for critical actions
+9. Frontend Architecture Specification
+9.1 Admin App Architecture
+
+Use feature-first React web structure.
+
+Suggested layers
+app shell
+routing
+feature modules
+shared components
+state management
+API layer
+theme/design system
+Admin feature modules
+auth
+dashboard
+users
+roles
+hierarchy
+leads
+assignments
+campaigns
+customers
+goals
+reports
+calendar
+notifications
+configuration
+audit
+settings
+9.2 Mobile App Architecture
+
+Use feature-first React Native structure.
+
+Suggested layers
+app shell
+navigation
+feature modules
+shared UI kit
+local storage/offline layer
+API layer
+sync engine
+theme/design system
+Mobile feature modules
+auth
+dashboard
+lead-create
+lead-list
+lead-detail
+activities
+tasks-calendar
+customers
+notifications
+sync
+profile
+10. Centralized Design System / Theme Management
+
+This is mandatory.
+
+10.1 Objective
+
+The entire admin and mobile apps must support changing:
+
+primary color
+secondary color
+success/warning/error/info colors
+background colors
+font family
+font size scale
+label size
+input size
+button size
+spacing scale
+border radius
+icon size
+card shadow/elevation
+table row height
+layout breakpoints
+
+from one central place.
+
+10.2 Theme Structure
+
+Create a shared design token model.
+
+Global design tokens
+colors
+typography
+spacing
+radius
+shadows
+borders
+icon sizes
+component sizes
+z-index levels
+breakpoints
+Typography tokens
+fontFamilyPrimary
+fontFamilySecondary
+fontWeightRegular
+fontWeightMedium
+fontWeightBold
+fontSizeXs
+fontSizeSm
+fontSizeMd
+fontSizeLg
+fontSizeXl
+labelSizeSm
+labelSizeMd
+labelSizeLg
+lineHeights
+Color tokens
+primary
+primaryDark
+secondary
+accent
+success
+warning
+error
+info
+textPrimary
+textSecondary
+background
+surface
+border
+disabled
+placeholder
+Component tokens
+inputHeightSm
+inputHeightMd
+inputHeightLg
+buttonHeightSm
+buttonHeightMd
+buttonHeightLg
+chipHeight
+cardRadius
+modalRadius
+tableRowHeight
+appBarHeight
+sidebarWidth
+10.3 Theming Rules
+no hardcoded color values inside screens/components
+no hardcoded font sizes inside feature screens unless token-based
+no hardcoded spacing except token references
+all shared components must consume theme tokens
+dark mode support should be possible through token switching
+white-labelling should be possible by swapping token packs
+10.4 Admin Theme Setup
+central theme.ts or design-tokens.ts
+component variants derive from theme only
+sidebar/header/buttons/forms/tables/dialogs must use shared tokens
+role dashboards reuse common widget components with token-based styling
+10.5 Mobile Theme Setup
+central theme.ts
+shared text/button/input/card/list components
+responsive scaling helpers use theme font and spacing values
+status colors and badge colors come from tokens only
+10.6 AI Agent Instruction for Theme
+
+Generate:
+
+design token file
+theme provider
+typography system
+color palette system
+reusable components using theme
+example screen consuming theme
+support for global update from one place
+11. API Grouping
+Authentication APIs
+login
+SSO callback
+MFA verify
+logout
+token refresh
+current user
+permissions/menu
+User/Role APIs
+create/update/deactivate user
+list users
+list roles
+assign role
+manage hierarchy
+permission mapping
+Lead APIs
+create lead
+update lead
+list/search leads
+lead detail
+duplicate check
+merge leads
+consent upload
+DNC validate
+history list
+Assignment APIs
+assign lead
+bulk assign
+reassign lead
+approve reassignment
+get routing rules
+Activity APIs
+create call log
+create meeting
+create task
+create note
+submit feedback
+update lead stage
+Campaign APIs
+create/edit/delete/archive campaign
+upload campaign leads
+map upload fields
+validate upload
+campaign dashboard metrics
+Dashboard APIs
+super admin dashboard
+operations dashboard
+campaign manager dashboard
+ARC dashboard
+team manager dashboard
+GSM dashboard
+HOA dashboard
+agent mobile dashboard
+Customer APIs
+customer list
+customer detail
+policy detail
+next best action
+referrals
+life events
+Notification APIs
+list notifications
+mark read
+preferences
+templates
+Report APIs
+list reports
+generate report
+export report
+schedule report
+Config APIs
+lead fields
+customer fields
+lifecycle config
+SLA config
+routing config
+territory config
+holiday config
+template config
+notification rules
+Offline Sync APIs
+upload offline transactions
+fetch delta data
+sync status
+conflict resolution support
+12. Data Entity List
+
+Primary entities:
+
+User
+Role
+Permission
+RolePermission
+UserHierarchy
+Lead
+LeadSource
+LeadConsent
+LeadAssignment
+LeadActivity
+LeadStageHistory
+LeadFile
+DNCRecord
+Campaign
+CampaignLeadImport
+CampaignAttribution
+Customer
+CustomerPolicy
+CustomerFactFind
+CustomerReferral
+Goal
+GoalAssignment
+CalendarEvent
+Notification
+NotificationTemplate
+SLAConfig
+RoutingRule
+Territory
+HolidayCalendar
+ReportDefinition
+ReportSchedule
+AuditLog
+FileMetadata
+SyncTransaction
+SystemConfig
+13. Background Jobs
+lead aging checker
+inactivity detector
+reminder generator
+notification dispatcher
+report scheduler
+campaign import processor
+consent expiry checker
+DNC revalidation job
+sync reconciliation job
+cleanup/archive job
+14. AI Agent Development Rules
+Backend AI Agent must generate
+modular Spring Boot project
+package-by-module structure
+clean architecture boundaries
+SOLID-compliant services
+DTOs and mappers
+JPA entities and repositories
+role-based authorization
+field masking hooks
+audit logging
+scheduler jobs
+API documentation
+test-ready service structure
+Admin AI Agent must generate
+role-based admin UI
+route guards and permission-based menus
+reusable dashboard widget system
+reusable tables/forms/filters/dialogs
+centralized theme setup
+responsive layout
+module-wise pages and API integration layer
+Mobile AI Agent must generate
+React Native app with feature modules
+centralized theme and design tokens
+offline local storage and sync layer
+reusable mobile components
+role-aware dashboard
+lead capture/list/detail/activity flows
+push notification hooks
+sync status handling
+Code Quality Rules
+avoid duplicated business logic
+keep validation centralized
+no hardcoded permission strings in many places; define constants/enums
+no hardcoded colors/fonts/sizes in screen code
+use shared components for forms, buttons, cards, badges, tables
+every business action should be auditable
+15. Recommended Delivery Phases
+Release 1
+auth and RBAC
+user/hierarchy setup
+lead create/list/detail
+lead upload
+assignment
+mobile assigned leads
+mobile activity capture
+base dashboards
+Release 2
+lifecycle/SLA/aging
+reassignment approval
+notifications
+reports
+campaign CRUD
+offline sync
+productivity tracking
+Release 3
+customer 360
+goals
+calendar sync
+referrals
+advanced routing
+DNC automation
+OCR consent flow
+Release 4
+AI scoring
+next best actions
+churn prediction
+explainability
+advanced compliance
+multi-tenant and enterprise enhancements
+16. Final Instruction to AI Agent
+
+Build this as an enterprise role-based LMS platform with:
+
+Spring Boot backend using clean architecture and SOLID
+React web admin portal
+React Native mobile app
+centralized theme/design tokens
+role-aware dashboards
+strict RBAC and hierarchy-based data access
+offline-first mobile behavior for lead and activity workflows
+scalable module boundaries for future expansion

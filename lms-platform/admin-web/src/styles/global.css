@@ -1,0 +1,2754 @@
+/* LMS Admin — CRM shell; colors/spacing from design tokens (CSS variables on :root) */
+
+:root {
+  font-family: var(--font-family-primary, "Inter", system-ui, sans-serif);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  --crm-radius-pill: 999px;
+  --crm-transition: 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  --crm-transition-snap: 0.14s ease;
+  --crm-shadow-elevated:
+    0 4px 6px color-mix(in srgb, var(--color-text-primary) 4%, transparent),
+    0 22px 50px color-mix(in srgb, var(--color-text-primary) 11%, transparent);
+  --crm-shadow-soft:
+    0 1px 2px color-mix(in srgb, var(--color-text-primary) 5%, transparent),
+    0 8px 24px color-mix(in srgb, var(--color-text-primary) 7%, transparent);
+  --crm-shadow-inset-highlight: inset 0 1px 0 color-mix(in srgb, var(--color-surface) 70%, white);
+  --crm-surface-glass: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  --crm-ring-accent: 0 0 0 1px color-mix(in srgb, var(--color-primary) 22%, transparent),
+    0 0 20px color-mix(in srgb, var(--color-secondary) 18%, transparent);
+}
+
+[data-theme="dark"] {
+  --crm-shadow-inset-highlight: inset 0 1px 0 color-mix(in srgb, var(--color-surface) 25%, white);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  line-height: var(--line-height-normal, 1.5);
+  background:
+    radial-gradient(120% 90% at 85% -15%, color-mix(in srgb, var(--color-secondary) 18%, transparent), transparent 52%),
+    radial-gradient(90% 70% at -5% 105%, color-mix(in srgb, var(--color-primary) 14%, transparent), transparent 48%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, color-mix(in srgb, var(--color-primary) 4%, transparent), transparent 70%),
+    var(--color-background);
+}
+
+code {
+  font-size: var(--font-size-xs, 12px);
+  background: color-mix(in srgb, var(--color-border) 55%, transparent);
+  padding: 2px var(--space-xs, 4px);
+  border-radius: var(--radius-sm, 4px);
+}
+
+/* ——— Focus (a11y) ——— */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ——— Cards & surfaces ——— */
+.card {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--color-surface) 100%, var(--color-primary)) 0%,
+    var(--color-surface) 48%,
+    color-mix(in srgb, var(--color-surface) 96%, var(--color-secondary)) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, var(--color-primary));
+  border-radius: calc(var(--radius-lg, 14px) + 2px);
+  box-shadow: var(--shadow-card, var(--crm-shadow-soft)), var(--crm-shadow-inset-highlight);
+  padding: var(--space-lg, 16px);
+  transition:
+    box-shadow var(--crm-transition),
+    border-color var(--crm-transition),
+    transform var(--crm-transition-snap);
+}
+
+.card:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 28%, var(--color-border));
+  box-shadow: var(--crm-shadow-soft), var(--crm-shadow-inset-highlight), var(--crm-ring-accent);
+  transform: translateY(-1px);
+}
+
+/* ——— Buttons ——— */
+.btn-primary {
+  height: var(--button-height-md, 40px);
+  padding: 0 var(--space-lg, 16px);
+  border-radius: calc(var(--radius-md, 8px) + 2px);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 22%, transparent) 0%, transparent 48%),
+    linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 92%, white), var(--color-primary-dark));
+  color: var(--color-surface);
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-semibold, 600);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs, 4px);
+  transition:
+    filter var(--crm-transition),
+    transform var(--crm-transition-snap),
+    box-shadow var(--crm-transition);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-surface) 35%, transparent),
+    0 4px 14px color-mix(in srgb, var(--color-primary) 38%, transparent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(1.06) saturate(1.05);
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-surface) 40%, transparent),
+    0 8px 28px color-mix(in srgb, var(--color-primary) 42%, transparent);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary--compact {
+  height: 36px;
+  padding: 0 var(--space-md, 12px);
+  font-size: var(--font-size-xs, 12px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.input {
+  width: 100%;
+  height: var(--input-height-md, 40px);
+  padding: 0 var(--space-md, 12px);
+  border-radius: calc(var(--radius-md, 8px) + 1px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 75%, var(--color-primary));
+  font-size: var(--font-size-sm, 14px);
+  background: color-mix(in srgb, var(--color-surface) 97%, var(--color-background));
+  color: var(--color-text-primary);
+  transition: border-color var(--crm-transition), box-shadow var(--crm-transition);
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+}
+
+.input:hover {
+  border-color: color-mix(in srgb, var(--color-border) 50%, var(--color-text-secondary));
+}
+
+.input:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-secondary) 22%, transparent);
+  outline: none;
+}
+
+.crm-select {
+  width: auto;
+  min-width: 160px;
+  cursor: pointer;
+}
+
+.error-banner {
+  background: color-mix(in srgb, var(--color-error) 10%, transparent);
+  color: var(--color-error);
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  border-radius: var(--radius-md, 8px);
+  margin-bottom: var(--space-md, 12px);
+  border: 1px solid color-mix(in srgb, var(--color-error) 25%, transparent);
+  font-size: var(--font-size-sm, 14px);
+}
+
+/* ——— App shell ——— */
+.crm-root {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-background);
+  background-image:
+    radial-gradient(ellipse 120% 80% at 100% -20%, color-mix(in srgb, var(--color-secondary) 16%, transparent), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 0% 100%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 45%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 35%, transparent) 0%, transparent 28%);
+}
+
+.crm-sidebar {
+  width: var(--sidebar-width, 260px);
+  flex-shrink: 0;
+  border-right: 1px solid color-mix(in srgb, var(--color-border) 65%, var(--color-primary));
+  background:
+    linear-gradient(195deg, color-mix(in srgb, var(--color-surface) 88%, var(--color-primary)) 0%, var(--color-surface) 42%, color-mix(in srgb, var(--color-surface) 94%, var(--color-secondary)) 100%);
+  box-shadow: 4px 0 32px color-mix(in srgb, var(--color-text-primary) 6%, transparent);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xl, 24px) var(--space-lg, 16px);
+  gap: var(--space-xl, 24px);
+}
+
+.crm-sidebar-brand {
+  display: flex;
+  gap: var(--space-md, 12px);
+  align-items: center;
+  padding-bottom: var(--space-md, 12px);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 80%, var(--color-secondary));
+}
+
+.crm-sidebar-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: calc(var(--radius-lg, 12px) + 2px);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--color-surface) 25%, transparent), transparent 42%),
+    linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 90%, white), var(--color-primary-dark));
+  color: var(--color-surface);
+  font-weight: var(--font-weight-bold, 700);
+  font-size: var(--font-size-sm, 14px);
+  letter-spacing: 0.06em;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-surface) 30%, transparent),
+    0 8px 22px color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.crm-sidebar-title {
+  font-weight: var(--font-weight-semibold, 600);
+  font-size: var(--font-size-md, 16px);
+  letter-spacing: -0.02em;
+}
+
+.crm-sidebar-sub {
+  font-size: var(--font-size-xs, 12px);
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.crm-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs, 2px);
+}
+
+.crm-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, 12px);
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  border-radius: calc(var(--radius-md, 8px) + 2px);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  transition:
+    background var(--crm-transition),
+    color var(--crm-transition),
+    transform var(--crm-transition-snap),
+    box-shadow var(--crm-transition);
+}
+
+.crm-nav-link:hover {
+  background: color-mix(in srgb, var(--color-secondary) 14%, transparent);
+  color: var(--color-text-primary);
+  transform: translateX(2px);
+}
+
+.crm-nav-link.active {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-primary) 22%, transparent),
+    color-mix(in srgb, var(--color-secondary) 8%, transparent)
+  );
+  color: color-mix(in srgb, var(--color-primary) 92%, var(--color-text-primary));
+  font-weight: var(--font-weight-semibold, 600);
+  box-shadow:
+    inset 3px 0 0 var(--color-primary),
+    0 1px 12px color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.crm-nav-icon {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius-md, 8px) + 1px);
+  background: color-mix(in srgb, var(--color-border) 35%, var(--color-surface));
+  color: currentColor;
+  flex-shrink: 0;
+  transition: background var(--crm-transition), box-shadow var(--crm-transition);
+}
+
+.crm-nav-link.active .crm-nav-icon {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--color-primary) 20%, transparent), color-mix(in srgb, var(--color-secondary) 12%, transparent));
+  color: var(--color-primary);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-surface) 55%, transparent);
+}
+
+.crm-nav-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.crm-nav-label {
+  flex: 1;
+}
+
+.crm-sidebar-footer {
+  margin-top: auto;
+  padding-top: var(--space-lg, 16px);
+  border-top: 1px solid var(--color-border);
+}
+
+.crm-sidebar-footnote {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+}
+
+.crm-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Mobile navigation — drawer + menu control (breakpoint matches shell layout) */
+.crm-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--color-text-primary) 38%, transparent);
+  backdrop-filter: blur(2px);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.crm-menu-button {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition:
+    background var(--crm-transition),
+    border-color var(--crm-transition),
+    color var(--crm-transition);
+}
+
+.crm-menu-button:hover {
+  background: var(--color-background);
+  border-color: color-mix(in srgb, var(--color-border) 50%, var(--color-secondary));
+}
+
+@media (max-width: 900px) {
+  .crm-menu-button {
+    display: inline-flex;
+  }
+
+  .crm-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: min(288px, 88vw);
+    z-index: 100;
+    transform: translateX(-105%);
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: none;
+    padding-top: calc(var(--space-xl, 24px) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--space-lg, 16px) + env(safe-area-inset-bottom, 0px));
+    padding-left: calc(var(--space-lg, 16px) + env(safe-area-inset-left, 0px));
+  }
+
+  .crm-sidebar.crm-sidebar--open {
+    transform: translateX(0);
+    box-shadow: var(--crm-shadow-elevated);
+  }
+
+  .crm-topbar {
+    padding: var(--space-sm, 8px) var(--space-md, 12px);
+    padding-left: max(var(--space-sm, 8px), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--space-md, 12px), env(safe-area-inset-right, 0px));
+    padding-top: max(var(--space-sm, 8px), env(safe-area-inset-top, 0px));
+    flex-wrap: wrap;
+    row-gap: var(--space-sm, 8px);
+  }
+
+  .crm-topbar-search {
+    order: 3;
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .crm-topbar-actions {
+    margin-left: auto;
+  }
+
+  .crm-content {
+    padding: var(--space-md, 12px) var(--space-md, 12px) var(--space-xl, 24px);
+    padding-left: max(var(--space-md, 12px), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--space-md, 12px), env(safe-area-inset-right, 0px));
+    padding-bottom: max(var(--space-xl, 24px), env(safe-area-inset-bottom, 0px));
+  }
+
+  .crm-page {
+    gap: var(--space-lg, 16px);
+  }
+
+  .crm-config-nav {
+    position: static;
+  }
+
+  .crm-toolbar .crm-search-shell {
+    min-width: 0;
+  }
+}
+
+.crm-topbar {
+  min-height: var(--app-bar-height, 56px);
+  padding: var(--space-sm, 8px) var(--space-xl, 24px);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 75%, var(--color-primary));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--crm-surface-glass) 100%, transparent) 0%, var(--crm-surface-glass) 100%);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg, 16px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+}
+
+.crm-topbar-search {
+  flex: 1;
+  min-width: 0;
+}
+
+.crm-search-shell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  max-width: 520px;
+  height: 42px;
+  padding: 0 var(--space-md, 12px);
+  border-radius: var(--crm-radius-pill);
+  border: 1px solid color-mix(in srgb, var(--color-border) 70%, var(--color-primary));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 70%, var(--color-background)), var(--color-background));
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+  transition: border-color var(--crm-transition), box-shadow var(--crm-transition);
+}
+
+.crm-search-shell:focus-within {
+  border-color: color-mix(in srgb, var(--color-secondary) 55%, var(--color-border));
+  box-shadow:
+    inset 0 1px 2px color-mix(in srgb, var(--color-text-primary) 4%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--color-secondary) 18%, transparent);
+}
+
+.crm-search-icon {
+  display: flex;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.crm-search-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.crm-search-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-primary);
+}
+
+.crm-search-input::placeholder {
+  color: var(--color-placeholder);
+}
+
+.crm-search-input:focus {
+  outline: none;
+}
+
+.crm-search-input.wide {
+  max-width: none;
+}
+
+.crm-toolbar .crm-search-shell {
+  max-width: none;
+  flex: 1;
+  min-width: 200px;
+}
+
+.crm-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  flex-shrink: 0;
+}
+
+.crm-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: calc(var(--radius-md, 8px) + 2px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, var(--color-primary));
+  background: linear-gradient(180deg, var(--color-surface), color-mix(in srgb, var(--color-background) 35%, var(--color-surface)));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition:
+    background var(--crm-transition),
+    color var(--crm-transition),
+    border-color var(--crm-transition),
+    box-shadow var(--crm-transition);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+}
+
+.crm-icon-button:hover {
+  background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-surface));
+  color: var(--color-primary);
+  border-color: color-mix(in srgb, var(--color-secondary) 40%, var(--color-border));
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.crm-bell-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crm-bell-svg {
+  width: 20px;
+  height: 20px;
+}
+
+.crm-bell-dot {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  border: 2px solid var(--color-surface);
+}
+
+.crm-theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: calc(var(--radius-md, 8px) + 2px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, var(--color-primary));
+  background: linear-gradient(180deg, var(--color-surface), color-mix(in srgb, var(--color-background) 35%, var(--color-surface)));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition:
+    background var(--crm-transition),
+    color var(--crm-transition),
+    border-color var(--crm-transition),
+    box-shadow var(--crm-transition);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+}
+
+.crm-theme-toggle:hover {
+  background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-surface));
+  color: var(--color-primary);
+  border-color: color-mix(in srgb, var(--color-secondary) 40%, var(--color-border));
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.crm-ghost-button {
+  height: 36px;
+  padding: 0 var(--space-md, 12px);
+  border-radius: calc(var(--radius-md, 8px) + 2px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 65%, var(--color-primary));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 100%, transparent), color-mix(in srgb, var(--color-background) 40%, var(--color-surface)));
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-semibold, 600);
+  transition:
+    background var(--crm-transition),
+    border-color var(--crm-transition),
+    box-shadow var(--crm-transition),
+    transform var(--crm-transition-snap);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+}
+
+a.crm-ghost-button {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crm-ghost-button:hover {
+  background: color-mix(in srgb, var(--color-secondary) 8%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-secondary) 35%, var(--color-border));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-text-primary) 7%, transparent);
+}
+
+.crm-user-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, 12px);
+  margin-left: var(--space-sm, 8px);
+  padding-left: var(--space-md, 12px);
+  border-left: 1px solid var(--color-border);
+}
+
+.crm-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--crm-radius-pill);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-secondary) 85%, white), var(--color-secondary));
+  color: var(--color-surface);
+  font-size: var(--font-size-xs, 12px);
+  font-weight: var(--font-weight-bold, 700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+  box-shadow: var(--crm-shadow-soft);
+}
+
+.crm-user-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.crm-user-name {
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-semibold, 600);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.crm-user-role {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+  letter-spacing: 0.03em;
+}
+
+.crm-logout {
+  flex-shrink: 0;
+}
+
+.crm-content {
+  flex: 1;
+  padding: var(--space-xl, 24px) var(--space-xl, 24px) var(--space-xxl, 32px);
+  overflow: auto;
+}
+
+.crm-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl, 24px);
+}
+
+/* Compact list pages: one toolbar row, table gets more vertical room */
+.crm-page--dense {
+  gap: var(--space-md, 12px);
+}
+
+.crm-page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md, 12px);
+  flex-wrap: wrap;
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+}
+
+.crm-page-toolbar__left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.crm-page-toolbar__eyebrow {
+  margin: 0;
+  font-size: 10px;
+  font-weight: var(--font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, var(--color-text-secondary) 92%, var(--color-primary));
+}
+
+.crm-page-toolbar .crm-page-title {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+}
+
+.crm-page-toolbar h1.crm-page-title::before {
+  display: none;
+}
+
+.crm-page-toolbar__hint {
+  margin: 0;
+  max-width: min(100%, 56ch);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs, 12px);
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.crm-page-toolbar__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  flex-shrink: 0;
+}
+
+.crm-page-toolbar .crm-search-shell {
+  max-width: 240px;
+  flex: 0 1 200px;
+  min-width: 140px;
+  height: 34px;
+  padding: 0 var(--space-sm, 8px);
+}
+
+.crm-page-toolbar .crm-search-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.crm-page-toolbar .crm-search-input {
+  font-size: var(--font-size-xs, 12px);
+}
+
+.crm-page-toolbar .crm-inline-field {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: var(--font-size-xs, 12px);
+}
+
+.crm-page-toolbar .crm-inline-field > span:first-child {
+  flex-shrink: 0;
+}
+
+.crm-page-toolbar .input,
+.crm-page-toolbar .crm-select {
+  height: 34px;
+  font-size: var(--font-size-xs, 12px);
+}
+
+.crm-page-toolbar__input-narrow {
+  width: 8.5rem;
+  max-width: 28vw;
+  flex-shrink: 0;
+  height: 34px;
+}
+
+.crm-page-toolbar .crm-ghost-button {
+  min-height: 34px;
+  padding: 0 var(--space-sm, 8px);
+  font-size: var(--font-size-xs, 12px);
+}
+
+.crm-page--dense .crm-table-wrap {
+  max-height: min(calc(100vh - 220px), 680px);
+}
+
+.crm-page-toolbar .crm-breadcrumb,
+.crm-breadcrumb--compact {
+  margin: 0 0 2px;
+  font-size: var(--font-size-xs, 12px);
+  gap: 6px;
+}
+
+.crm-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs, 4px);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: color-mix(in srgb, var(--color-secondary) 88%, var(--color-primary));
+  margin: 0 0 var(--space-sm, 8px);
+  padding: 4px 10px;
+  border-radius: var(--crm-radius-pill);
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--color-secondary) 16%, transparent),
+    color-mix(in srgb, var(--color-primary) 10%, transparent)
+  );
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 28%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--color-surface) 50%, transparent);
+}
+
+.crm-page-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-lg, 16px);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+h1.crm-page-title {
+  margin: 0;
+  font-size: clamp(1.45rem, 2.6vw, 1.9rem);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+
+h1.crm-page-title::before {
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 4px;
+  border-radius: 4px;
+  margin-bottom: var(--space-md, 12px);
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary), color-mix(in srgb, var(--color-primary) 40%, var(--color-secondary)));
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--color-primary) 28%, transparent);
+}
+
+.crm-page-subtitle {
+  margin: var(--space-md, 12px) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm, 14px);
+  max-width: 56ch;
+  line-height: 1.6;
+}
+
+/* Configuration hub — sidebar + main + cards */
+.crm-config-page {
+  max-width: 1280px;
+}
+
+.crm-config-layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 240px) 1fr;
+  gap: var(--space-lg, 16px);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .crm-config-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.crm-config-nav {
+  padding: var(--space-md, 12px) var(--space-md, 12px);
+  position: sticky;
+  top: var(--space-md, 12px);
+}
+
+.crm-config-nav.card {
+  padding: var(--space-lg, 16px) var(--space-md, 12px);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--color-surface) 100%, var(--color-primary)) 0%, var(--color-surface) 55%);
+}
+
+.crm-config-nav-title {
+  margin: 0 0 var(--space-md, 12px);
+  padding: 0 var(--space-xs, 4px);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, var(--color-text-secondary) 92%, var(--color-primary));
+}
+
+.crm-config-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.crm-config-nav-link {
+  display: block;
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  border-radius: calc(var(--radius-md, 8px) + 2px);
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  line-height: 1.4;
+  font-weight: var(--font-weight-medium, 500);
+  border: 1px solid transparent;
+  transition:
+    background var(--crm-transition),
+    color var(--crm-transition),
+    border-color var(--crm-transition),
+    box-shadow var(--crm-transition),
+    transform var(--crm-transition-snap);
+}
+
+.crm-config-nav-link:hover {
+  background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-surface));
+  color: var(--color-text-primary);
+  border-color: color-mix(in srgb, var(--color-border) 90%, var(--color-secondary));
+  transform: translateX(2px);
+}
+
+.crm-config-nav-link.is-active {
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--color-primary) 16%, transparent),
+    color-mix(in srgb, var(--color-secondary) 8%, transparent)
+  );
+  color: color-mix(in srgb, var(--color-primary) 88%, var(--color-text-primary));
+  font-weight: var(--font-weight-semibold, 600);
+  border-color: color-mix(in srgb, var(--color-primary) 32%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-surface) 70%, transparent),
+    0 6px 16px color-mix(in srgb, var(--color-primary) 14%, transparent);
+}
+
+.crm-config-main {
+  min-width: 0;
+}
+
+.crm-config-intro {
+  margin-bottom: var(--space-lg, 16px);
+}
+
+.crm-config-intro p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm, 14px);
+  line-height: 1.55;
+}
+
+.crm-config-card-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-md, 12px);
+}
+
+.crm-config-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+  padding: var(--space-lg, 16px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, var(--color-primary));
+  border-radius: calc(var(--radius-lg, 12px) + 2px);
+  background: linear-gradient(145deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 94%, var(--color-secondary)) 100%);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-card, var(--crm-shadow-soft)), var(--crm-shadow-inset-highlight);
+  transition: transform var(--crm-transition), box-shadow var(--crm-transition), border-color var(--crm-transition);
+}
+
+.crm-config-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--crm-shadow-elevated), var(--crm-ring-accent);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
+}
+
+.crm-config-card-title {
+  font-weight: var(--font-weight-semibold, 600);
+  font-size: var(--font-size-md, 16px);
+  color: var(--color-text-primary);
+}
+
+.crm-config-card-cta {
+  font-size: var(--font-size-xs, 12px);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.crm-config-panel {
+  padding: var(--space-lg, 16px);
+}
+
+.crm-config-panel-header {
+  margin-bottom: var(--space-lg, 16px);
+}
+
+.crm-config-panel-header h2 {
+  margin: 0 0 var(--space-xs, 4px);
+  font-size: var(--font-size-lg, 18px);
+}
+
+.crm-config-panel-header p {
+  margin: 0;
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+h2.crm-config-panel-heading,
+.crm-config-panel-heading {
+  margin: 0 0 var(--space-xs, 4px);
+  font-size: var(--font-size-lg, 18px);
+  font-weight: var(--font-weight-semibold, 600);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+p.crm-config-panel-lead,
+.crm-config-panel-lead {
+  margin: 0;
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.crm-config-field-meta {
+  font-weight: var(--font-weight-regular, 400);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs, 12px);
+}
+
+.crm-bulk-upload-row {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) auto;
+  gap: var(--space-sm, 8px);
+  align-items: center;
+}
+
+@media (max-width: 700px) {
+  .crm-bulk-upload-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Bulk upload — aligned toolbar + styled file control */
+.crm-bulk-upload-toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-md, 12px);
+}
+
+.crm-bulk-upload-toolbar__file {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.crm-bulk-upload-toolbar__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+@media (min-width: 720px) {
+  .crm-bulk-upload-toolbar {
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .crm-bulk-upload-toolbar__file {
+    flex: 1 1 220px;
+    max-width: 100%;
+  }
+
+  .crm-bulk-upload-toolbar__actions {
+    flex: 0 0 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+.crm-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs, 2px);
+  min-width: 0;
+}
+
+.crm-file-upload__label {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+}
+
+.crm-file-upload__control {
+  display: flex;
+  align-items: center;
+  min-height: var(--input-height-md, 40px);
+  padding: var(--space-xxs, 2px) var(--space-sm, 8px) var(--space-xxs, 2px) var(--space-sm, 8px);
+  border-radius: calc(var(--radius-md, 8px) + 1px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 75%, var(--color-primary));
+  background: color-mix(in srgb, var(--color-surface) 97%, var(--color-background));
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+  transition: border-color var(--crm-transition), box-shadow var(--crm-transition);
+}
+
+.crm-file-upload__control:focus-within {
+  border-color: var(--color-secondary);
+  box-shadow:
+    inset 0 1px 2px color-mix(in srgb, var(--color-text-primary) 4%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--color-secondary) 18%, transparent);
+}
+
+.crm-file-upload__input {
+  width: 100%;
+  min-width: 0;
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-primary);
+  border: none;
+  background: transparent;
+  padding: var(--space-xs, 4px) 0;
+}
+
+.crm-file-upload__input:focus {
+  outline: none;
+}
+
+.crm-file-upload__input::file-selector-button {
+  margin-right: var(--space-md, 12px);
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  border-radius: var(--radius-sm, 6px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 65%, var(--color-primary));
+  background: linear-gradient(180deg, var(--color-surface), color-mix(in srgb, var(--color-background) 40%, var(--color-surface)));
+  font-size: var(--font-size-xs, 12px);
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: inherit;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  transition:
+    border-color var(--crm-transition),
+    box-shadow var(--crm-transition);
+}
+
+.crm-file-upload__input::file-selector-button:hover {
+  border-color: color-mix(in srgb, var(--color-secondary) 35%, var(--color-border));
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-text-primary) 6%, transparent);
+}
+
+.crm-bulk-upload-status {
+  margin: var(--space-md, 12px) 0 0;
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-border) 35%, transparent);
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+.crm-inline-alert {
+  margin-top: var(--space-sm, 8px);
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm, 14px);
+  line-height: 1.45;
+}
+
+.crm-bulk-validation {
+  margin-top: var(--space-lg, 16px);
+  display: grid;
+  gap: var(--space-md, 12px);
+}
+
+.crm-master-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-sm, 8px);
+  align-items: end;
+}
+
+.crm-master-form--stacked {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md, 12px);
+  align-items: start;
+}
+
+.crm-master-form--stacked .crm-form-field {
+  margin-bottom: 0;
+}
+
+.crm-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.crm-checkbox-line {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  margin: 0;
+}
+
+.crm-checkbox-line__text {
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.crm-form-field--checkbox {
+  margin-bottom: 0;
+}
+
+.crm-form-field--hide-label {
+  margin-bottom: 0;
+  width: auto;
+  min-width: 0;
+  align-self: center;
+}
+
+.crm-page-toolbar__controls .crm-form-field--hide-label .crm-form-field__control {
+  width: auto;
+}
+
+.crm-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-text-primary) 42%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg, 16px);
+  z-index: 1200;
+}
+
+.crm-popup-card {
+  width: min(920px, 100%);
+  max-height: min(calc(100vh - 48px), 100dvh);
+  overflow: auto;
+  padding: var(--space-xl, 24px);
+  border-radius: var(--radius-xl, 16px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 70%, var(--color-primary));
+  background: linear-gradient(165deg, color-mix(in srgb, var(--color-surface) 100%, var(--color-primary)) 0%, var(--color-surface) 40%);
+  box-shadow: var(--crm-shadow-elevated), var(--crm-shadow-inset-highlight);
+  -webkit-overflow-scrolling: touch;
+}
+
+.crm-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+}
+
+.crm-popup-header h2 {
+  margin: 0;
+  font-size: var(--font-size-xl, 22px);
+}
+
+.crm-popup-header .crm-icon-button {
+  margin-left: auto;
+  border-color: color-mix(in srgb, var(--color-border) 65%, transparent);
+}
+
+.crm-popup-form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  margin-top: var(--space-sm, 8px);
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  padding-top: var(--space-md, 12px);
+  padding-bottom: var(--space-sm, 8px);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-surface) 98%, transparent) 72%,
+    color-mix(in srgb, var(--color-surface) 0%, transparent)
+  );
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 78%, transparent);
+}
+
+.crm-report-grid {
+  margin-top: var(--space-lg, 16px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-md, 12px);
+}
+
+.crm-report-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+}
+
+.crm-report-card h3 {
+  margin: 0;
+}
+
+.crm-report-card p {
+  margin: 0;
+}
+
+.crm-report-audience {
+  margin-top: var(--space-xs, 4px);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs, 12px);
+}
+
+.crm-page-actions {
+  display: flex;
+  gap: var(--space-sm, 8px);
+  align-items: center;
+}
+
+.crm-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md, 12px);
+}
+
+.crm-kpi-card {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--color-border) 75%, var(--color-primary));
+  border-radius: calc(var(--radius-lg, 12px) + 2px);
+  padding: var(--space-lg, 16px) var(--space-lg, 16px) var(--space-lg, 16px) var(--space-lg, 16px);
+  padding-left: calc(var(--space-lg, 16px) + 6px);
+  background: linear-gradient(125deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 92%, var(--color-primary)) 100%);
+  box-shadow: var(--shadow-card, var(--crm-shadow-soft)), var(--crm-shadow-inset-highlight);
+  transition: transform var(--crm-transition), box-shadow var(--crm-transition);
+  overflow: hidden;
+}
+
+.crm-kpi-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, var(--color-secondary), var(--color-primary));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.crm-kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--crm-shadow-elevated), var(--crm-ring-accent);
+}
+
+.crm-kpi-label {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.crm-kpi-value {
+  font-size: var(--font-size-xl, 22px);
+  margin-top: var(--space-sm, 8px);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.crm-kpi-hint {
+  margin: var(--space-sm, 8px) 0 0;
+  font-size: var(--font-size-xs, 12px);
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+.crm-two-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-lg, 16px);
+}
+
+.crm-panel h3 {
+  margin-top: 0;
+  font-size: var(--font-size-md, 16px);
+  font-weight: var(--font-weight-semibold, 600);
+  letter-spacing: -0.02em;
+}
+
+/* Shared section title (reusable UI Text variant) */
+h2.crm-section-heading,
+h3.crm-section-heading,
+.crm-section-heading {
+  margin-top: 0;
+  font-size: var(--font-size-md, 16px);
+  font-weight: var(--font-weight-semibold, 600);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.crm-steps,
+.crm-bullet-list {
+  margin: 0;
+  padding-left: var(--space-lg, 16px);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm, 14px);
+  line-height: var(--line-height-normal, 1.5);
+}
+
+.crm-toolbar {
+  padding: var(--space-lg, 16px);
+}
+
+.crm-toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md, 12px);
+  align-items: flex-end;
+}
+
+.crm-inline-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs, 2px);
+  font-size: 11px;
+  font-weight: var(--font-weight-medium, 500);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+}
+
+.crm-inline-field:has(input[type="checkbox"]) {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-sm, 8px);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: var(--font-size-sm, 14px);
+}
+
+.crm-inline-field input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+  border-radius: 6px;
+}
+
+.crm-table-card {
+  padding: 0;
+  overflow: hidden;
+  border-radius: calc(var(--radius-lg, 12px) + 2px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, var(--color-primary));
+  box-shadow: var(--crm-shadow-soft), var(--crm-shadow-inset-highlight);
+}
+
+.crm-table-wrap {
+  overflow: auto;
+  max-height: min(65vh, 560px);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 100%, transparent) 0%, var(--color-surface) 100%);
+}
+
+.crm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm, 14px);
+}
+
+.crm-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-surface) 88%, var(--color-primary)) 0%,
+    color-mix(in srgb, var(--color-surface) 94%, var(--color-secondary)) 100%
+  );
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.crm-table th {
+  font-weight: var(--font-weight-bold, 700);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--color-text-secondary) 88%, var(--color-primary));
+}
+
+.crm-table th,
+.crm-table td {
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
+  text-align: left;
+  vertical-align: top;
+}
+
+.crm-table tbody tr {
+  transition: background var(--crm-transition), box-shadow var(--crm-transition);
+}
+
+.crm-table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--color-primary) 3.5%, var(--color-surface));
+}
+
+.crm-table td.crm-muted[colspan] {
+  text-align: center;
+  padding: var(--space-xxl, 32px) var(--space-lg, 16px);
+  font-weight: var(--font-weight-medium, 500);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 6%, transparent),
+    color-mix(in srgb, var(--color-secondary) 5%, transparent)
+  );
+}
+
+.crm-table tbody tr:hover {
+  background: color-mix(in srgb, var(--color-secondary) 12%, var(--color-surface));
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--color-secondary) 65%, transparent);
+}
+
+.crm-link-strong {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold, 600);
+  text-decoration: none;
+  transition: color var(--crm-transition);
+}
+
+.crm-link-strong:hover {
+  color: var(--color-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.crm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--crm-radius-pill);
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold, 600);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-border);
+}
+
+.crm-badge-new {
+  background: color-mix(in srgb, var(--color-info) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-info) 30%, transparent);
+  color: var(--color-info);
+}
+
+.crm-badge-contacted {
+  background: color-mix(in srgb, var(--color-secondary) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-secondary) 28%, transparent);
+  color: var(--color-secondary);
+}
+
+.crm-badge-qualified {
+  background: color-mix(in srgb, var(--color-success) 14%, transparent);
+  border-color: color-mix(in srgb, var(--color-success) 30%, transparent);
+  color: var(--color-success);
+}
+
+.crm-badge-lost {
+  background: color-mix(in srgb, var(--color-error) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-error) 28%, transparent);
+  color: var(--color-error);
+}
+
+.crm-muted {
+  color: color-mix(in srgb, var(--color-text-secondary) 94%, var(--color-primary));
+  font-size: var(--font-size-sm, 14px);
+}
+
+td.crm-muted,
+th.crm-muted {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Empty / loading strip above data tables */
+.crm-table-card > .crm-muted {
+  display: block;
+  text-align: center;
+  padding: var(--space-lg, 20px) var(--space-lg, 16px);
+  margin: 0;
+  line-height: 1.55;
+  font-weight: var(--font-weight-medium, 500);
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--color-primary) 7%, transparent),
+    color-mix(in srgb, var(--color-secondary) 6%, transparent)
+  );
+  border-bottom: 1px dashed color-mix(in srgb, var(--color-border) 65%, var(--color-secondary));
+}
+
+.crm-page > .crm-muted:only-child {
+  text-align: center;
+  padding: var(--space-xxl, 32px) var(--space-xl, 24px);
+  margin: var(--space-xl, 24px) auto;
+  max-width: 28rem;
+  line-height: 1.55;
+  font-weight: var(--font-weight-medium, 500);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 8%, transparent),
+    color-mix(in srgb, var(--color-secondary) 6%, transparent)
+  );
+  border-radius: calc(var(--radius-lg, 14px) + 2px);
+  border: 1px dashed color-mix(in srgb, var(--color-border) 68%, var(--color-secondary));
+  box-shadow: var(--crm-shadow-soft);
+}
+
+.crm-breadcrumb {
+  display: flex;
+  gap: var(--space-sm, 8px);
+  align-items: center;
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-secondary);
+  flex-wrap: wrap;
+}
+
+.crm-breadcrumb a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.crm-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.crm-record-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-lg, 16px);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.crm-record-actions {
+  display: flex;
+  gap: var(--space-sm, 8px);
+  flex-wrap: wrap;
+}
+
+.crm-record-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: var(--space-lg, 16px);
+}
+
+@media (max-width: 900px) {
+  .crm-record-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .crm-user-chip .crm-user-meta {
+    display: none;
+  }
+}
+
+.crm-dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg, 16px);
+  margin: 0;
+}
+
+.crm-dl > div {
+  min-height: 58px;
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 76%, transparent);
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-surface) 95%, transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.crm-dl dt {
+  margin: 0;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.crm-dl dd {
+  margin: var(--space-xs, 4px) 0 0;
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+@media (max-width: 900px) {
+  .crm-dl {
+    grid-template-columns: 1fr;
+  }
+}
+
+.crm-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 12px);
+}
+
+.crm-timeline li {
+  display: flex;
+  gap: var(--space-md, 12px);
+}
+
+.crm-timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  margin-top: 6px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-secondary) 20%, transparent);
+}
+
+/* ——— Drawer ——— */
+.crm-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-text-primary) 45%, transparent);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  z-index: 40;
+  animation: crm-fade-in 0.2s ease;
+}
+
+@keyframes crm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes crm-drawer-slide {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.crm-drawer {
+  width: min(440px, 100%);
+  background: var(--color-surface);
+  height: 100%;
+  padding: var(--space-xl, 24px);
+  box-shadow: var(--shadow-modal, -8px 0 40px color-mix(in srgb, var(--color-text-primary) 15%, transparent));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+  border-left: 1px solid var(--color-border);
+  animation: crm-drawer-slide 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow-y: auto;
+}
+
+.crm-drawer--wide {
+  width: min(520px, 100%);
+}
+
+.crm-drawer--record {
+  width: min(600px, 100%);
+}
+
+.crm-create-footnote {
+  margin: var(--space-lg, 16px) 0 0;
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-border) 45%, transparent);
+  font-size: var(--app-text-1-size, 12px);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.crm-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md, 12px);
+}
+
+.crm-drawer-title {
+  margin: 0;
+  font-size: var(--font-size-xl, 22px);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+}
+
+.crm-drawer-intro {
+  margin: var(--space-sm, 8px) 0 0;
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  max-width: 42ch;
+}
+
+.crm-drawer-close {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+
+.crm-drawer-header-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm, 8px);
+  flex-shrink: 0;
+}
+
+.crm-drawer-options {
+  position: relative;
+}
+
+.crm-drawer-options-summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-secondary);
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  user-select: none;
+}
+
+.crm-drawer-options-summary::-webkit-details-marker {
+  display: none;
+}
+
+.crm-drawer-options[open] .crm-drawer-options-summary {
+  color: var(--color-text-primary);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
+}
+
+.crm-drawer-options-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  min-width: 240px;
+  z-index: 5;
+  padding: var(--space-xs, 4px);
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card, var(--crm-shadow-soft));
+}
+
+.crm-drawer-options-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  font-size: var(--font-size-sm, 14px);
+  color: var(--color-text-primary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  line-height: 1.35;
+}
+
+.crm-drawer-options-item:hover {
+  background: var(--color-surface-muted, rgba(0, 0, 0, 0.04));
+}
+
+.crm-form-section {
+  padding: var(--space-lg, 16px) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.crm-form-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.crm-form-section-title {
+  margin: 0 0 var(--space-xs, 4px);
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-semibold, 600);
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+.crm-form-section-hint {
+  margin: 0 0 var(--space-lg, 16px);
+  font-size: var(--font-size-xs, 12px);
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  max-width: 48ch;
+}
+
+.crm-form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md, 12px);
+}
+
+@media (max-width: 520px) {
+  .crm-form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.crm-field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm, 8px);
+  width: 100%;
+}
+
+.crm-tag-required,
+.crm-tag-optional {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: var(--crm-radius-pill);
+  flex-shrink: 0;
+}
+
+.crm-tag-required {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+}
+
+.crm-tag-optional {
+  background: color-mix(in srgb, var(--color-border) 80%, transparent);
+  color: var(--color-text-secondary);
+}
+
+.crm-field-hint {
+  display: block;
+  margin-top: var(--space-xs, 4px);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.crm-select--full {
+  width: 100%;
+  min-width: 0;
+}
+
+.crm-list-sub {
+  margin-top: var(--space-xxs, 2px);
+  font-size: var(--font-size-xs, 12px);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-regular, 400);
+}
+
+.crm-source-pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: var(--crm-radius-pill);
+  background: color-mix(in srgb, var(--color-secondary) 12%, transparent);
+  color: var(--color-secondary);
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 25%, transparent);
+}
+
+.crm-drawer-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 12px);
+}
+
+.crm-field-label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+}
+
+.crm-drawer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm, 8px);
+  margin-top: var(--space-md, 12px);
+  padding-top: var(--space-lg, 16px);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ——— Login ——— */
+.crm-login {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+}
+
+@media (max-width: 960px) {
+  .crm-login {
+    grid-template-columns: 1fr;
+  }
+
+  .crm-login-brand {
+    min-height: 240px;
+    padding: var(--space-xl, 24px);
+  }
+}
+
+.crm-login-brand {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--color-primary-dark) 0%, var(--color-primary) 42%, color-mix(in srgb, var(--color-secondary) 55%, var(--color-primary)) 100%);
+  color: var(--color-surface);
+  display: flex;
+  align-items: center;
+  padding: var(--space-xxl, 32px) var(--space-xxl, 32px) var(--space-xxl, 48px);
+}
+
+.crm-login-brand::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--color-surface) 18%, transparent), transparent 55%);
+  pointer-events: none;
+}
+
+.crm-login-brand-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+}
+
+.crm-login-logo {
+  display: inline-flex;
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-surface) 16%, transparent);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: 0.12em;
+  font-size: var(--font-size-xs, 12px);
+  border: 1px solid color-mix(in srgb, var(--color-surface) 25%, transparent);
+}
+
+.crm-login-brand h1 {
+  margin: var(--space-xl, 24px) 0 var(--space-md, 12px);
+  font-size: clamp(1.65rem, 3.5vw, 2.15rem);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.crm-login-brand p {
+  margin: 0;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  font-size: var(--font-size-sm, 14px);
+}
+
+.crm-login-highlights {
+  margin: var(--space-xl, 24px) 0 0;
+  padding-left: var(--space-lg, 16px);
+  color: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  font-size: var(--font-size-sm, 14px);
+  line-height: 1.65;
+}
+
+.crm-login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xxl, 32px);
+  background: var(--color-background);
+}
+
+.crm-login-card {
+  width: min(420px, 100%);
+  background: var(--color-surface);
+  border-radius: var(--radius-xl, 16px);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--crm-shadow-elevated);
+  padding: var(--space-xxl, 32px);
+}
+
+.crm-login-card header h2 {
+  margin: 0 0 var(--space-xs, 4px);
+  font-size: var(--font-size-xl, 22px);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -0.03em;
+}
+
+.crm-login-card header p {
+  margin: 0 0 var(--space-xl, 24px);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm, 14px);
+  line-height: 1.5;
+}
+
+.crm-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+}
+
+.crm-login-form .crm-form-field {
+  margin-bottom: 0;
+}
+
+.crm-login-submit {
+  margin-top: var(--space-sm, 8px);
+  width: 100%;
+}
+
+.crm-login-hint {
+  margin-top: var(--space-xl, 24px);
+  padding-top: var(--space-lg, 16px);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-xs, 12px);
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.crm-loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md, 12px);
+  color: var(--color-text-secondary);
+  background: var(--color-background);
+}
+
+.crm-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  animation: crm-spin 0.75s linear infinite;
+}
+
+@keyframes crm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ——— Reusable form field (label + control + error) ——— */
+.crm-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+  margin-bottom: var(--space-md, 12px);
+}
+
+.crm-form-field__label {
+  font-size: var(--app-text-2-size, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-primary);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.crm-form-field__required {
+  color: var(--color-error, #dc2626);
+  font-weight: var(--font-weight-bold, 700);
+}
+
+.crm-form-field__control .input,
+.crm-form-field__control textarea.input {
+  width: 100%;
+  min-width: 0;
+}
+
+.crm-form-field__control textarea.input {
+  min-height: 88px;
+  resize: vertical;
+  padding-top: var(--space-sm, 8px);
+  padding-bottom: var(--space-sm, 8px);
+}
+
+.crm-form-field__error {
+  margin: 0;
+  font-size: var(--app-text-1-size, 12px);
+  color: var(--color-error, #dc2626);
+}
+
+.crm-create-lead-form .crm-form-section-title {
+  margin-bottom: var(--space-md, 12px);
+}
+
+.crm-create-lead-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+}
+
+.crm-product-map {
+  display: grid;
+  gap: var(--space-sm, 8px);
+}
+
+.crm-product-map__row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.5fr) auto repeat(3, minmax(110px, 1fr)) auto;
+  gap: var(--space-sm, 8px);
+  align-items: end;
+  padding: var(--space-sm, 8px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 78%, transparent);
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+}
+
+.crm-product-map__pending {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-sm, 8px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-background) 85%, var(--color-surface));
+  font-size: var(--font-size-xs, 12px);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+@media (max-width: 1100px) {
+  .crm-product-map__row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.crm-create-field-rules {
+  margin-top: var(--space-lg, 16px);
+  padding: var(--space-md, 12px);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-background) 80%, transparent);
+}
+
+.crm-create-field-rules summary {
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.crm-create-field-rules-list {
+  list-style: none;
+  margin: var(--space-sm, 8px) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-sm, 8px);
+}
+
+.crm-create-field-rules-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  font-size: var(--app-text-2-size, 14px);
+  cursor: pointer;
+}
+
+/* ——— App type scale: four text + four label levels (tokens on :root) ——— */
+.crm-type-1 {
+  margin: 0;
+  font-size: var(--app-text-1-size, 12px);
+  line-height: var(--app-text-1-lh, 1.45);
+  font-weight: var(--app-text-1-weight, 400);
+  color: var(--color-text-primary);
+}
+
+.crm-type-2 {
+  margin: 0;
+  font-size: var(--app-text-2-size, 14px);
+  line-height: var(--app-text-2-lh, 1.5);
+  font-weight: var(--app-text-2-weight, 400);
+  color: var(--color-text-primary);
+}
+
+.crm-type-3 {
+  margin: 0;
+  font-size: var(--app-text-3-size, 16px);
+  line-height: var(--app-text-3-lh, 1.35);
+  font-weight: var(--app-text-3-weight, 600);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.crm-type-4 {
+  margin: 0;
+  font-size: var(--app-text-4-size, 22px);
+  line-height: var(--app-text-4-lh, 1.25);
+  font-weight: var(--app-text-4-weight, 700);
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+}
+
+.crm-label-1 {
+  font-size: var(--app-label-1-size, 10px);
+  font-weight: var(--app-label-1-weight, 600);
+  letter-spacing: var(--app-label-1-tracking, 0.06em);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.crm-label-2 {
+  font-size: var(--app-label-2-size, 11px);
+  font-weight: var(--app-label-2-weight, 600);
+  letter-spacing: var(--app-label-2-tracking, 0.02em);
+  color: var(--color-text-secondary);
+}
+
+.crm-label-3 {
+  font-size: var(--app-label-3-size, 12px);
+  font-weight: var(--app-label-3-weight, 600);
+  letter-spacing: var(--app-label-3-tracking, 0.01em);
+  color: var(--color-text-primary);
+}
+
+.crm-label-4 {
+  font-size: var(--app-label-4-size, 14px);
+  font-weight: var(--app-label-4-weight, 600);
+  letter-spacing: var(--app-label-4-tracking, 0);
+  color: var(--color-text-primary);
+}
+
+/* ——— Settings ——— */
+.crm-settings-page {
+  max-width: min(1040px, 100%);
+}
+
+.crm-settings-section h2 {
+  margin: 0 0 var(--space-sm, 8px);
+}
+
+.crm-settings-subheading {
+  margin: 0 0 var(--space-xs, 4px);
+  font-size: var(--app-text-3-size, 16px);
+  line-height: var(--app-text-3-lh, 1.35);
+  font-weight: var(--app-text-3-weight, 600);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.crm-settings-split {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(300px, 1.08fr);
+  gap: var(--space-xxl, 32px);
+  align-items: start;
+  margin-top: var(--space-lg, 16px);
+}
+
+@media (max-width: 900px) {
+  .crm-settings-split {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl, 24px);
+  }
+}
+
+.crm-settings-split-col {
+  min-width: 0;
+}
+
+.crm-settings-split .crm-settings-block {
+  margin-top: var(--space-lg, 16px);
+}
+
+.crm-settings-split .crm-settings-subheading + .crm-settings-block {
+  margin-top: var(--space-md, 12px);
+}
+
+.crm-settings-scale-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md, 12px);
+  width: 100%;
+}
+
+.crm-settings-scale-stack .crm-font-scale-preview {
+  width: 100%;
+}
+
+.crm-settings-muted {
+  color: var(--color-text-secondary);
+}
+
+.crm-settings-block {
+  margin-top: var(--space-xl, 24px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md, 12px);
+}
+
+.crm-segmented {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: var(--radius-md, 8px);
+  background: color-mix(in srgb, var(--color-border) 65%, transparent);
+  border: 1px solid var(--color-border);
+}
+
+.crm-segmented-btn {
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--app-text-2-size, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  padding: var(--space-sm, 8px) var(--space-lg, 16px);
+  border-radius: var(--radius-sm, 4px);
+  cursor: pointer;
+  transition:
+    background var(--crm-transition),
+    color var(--crm-transition);
+}
+
+.crm-segmented-btn.is-active {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: var(--crm-shadow-soft);
+}
+
+.crm-accent-grid {
+  list-style: none;
+  margin: var(--space-md, 12px) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+.crm-accent-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, 12px);
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color var(--crm-transition),
+    box-shadow var(--crm-transition);
+}
+
+.crm-accent-option:hover {
+  border-color: color-mix(in srgb, var(--color-border) 50%, var(--color-primary));
+}
+
+.crm-accent-option.is-selected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.crm-accent-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm, 4px);
+  flex-shrink: 0;
+  border: 1px solid color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+}
+
+.crm-accent-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.crm-segmented--triple .crm-segmented-btn {
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+}
+
+.crm-font-scale-preview {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md, 8px);
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  background: var(--color-surface);
+}
+
+.crm-font-scale-preview-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md, 12px);
+  padding-bottom: var(--space-sm, 8px);
+  margin-bottom: var(--space-xs, 4px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.crm-font-scale-preview-head .crm-label-2:last-child {
+  text-align: right;
+  min-width: 3.5rem;
+}
+
+.crm-font-scale-preview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-lg, 16px);
+  padding: var(--space-sm, 8px) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.crm-font-scale-preview-row:last-child {
+  border-bottom: none;
+}
+
+.crm-font-scale-preview-sample {
+  margin: 0;
+  min-width: 0;
+}
+
+.crm-font-scale-px {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-secondary);
+  font-size: var(--app-text-2-size, 14px);
+  flex-shrink: 0;
+  min-width: 3rem;
+  text-align: right;
+}
+
+.crm-type-samples {
+  margin-top: var(--space-lg, 16px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl, 24px);
+}
+
+.crm-type-samples--in-scale {
+  margin-top: var(--space-md, 12px);
+  width: 100%;
+}
+
+.crm-label-px-list {
+  text-align: right;
+}
+
+.crm-label-px-list .crm-font-scale-px {
+  margin: 0 0 var(--space-xs, 4px);
+}
+
+.crm-label-px-list .crm-label-2 {
+  display: block;
+  margin-bottom: var(--space-sm, 8px);
+}
+
+@media (max-width: 640px) {
+  .crm-type-samples {
+    grid-template-columns: 1fr;
+  }
+}
+
+.crm-type-samples .crm-label-2 {
+  display: block;
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.crm-code-inline {
+  font-size: var(--app-text-1-size, 12px);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm, 4px);
+  background: color-mix(in srgb, var(--color-border) 55%, transparent);
+}
+
+/* Narrow phones: modals, tables, and primary actions */
+@media (max-width: 640px) {
+  .crm-popup-overlay {
+    align-items: flex-end;
+    padding: 0;
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  .crm-popup-card {
+    width: 100%;
+    max-width: none;
+    max-height: min(92dvh, 92vh);
+    border-radius: var(--radius-xl, 16px) var(--radius-xl, 16px) 0 0;
+    padding: var(--space-lg, 16px);
+    padding-bottom: max(var(--space-lg, 16px), env(safe-area-inset-bottom, 0px));
+  }
+
+  .crm-popup-header h2 {
+    font-size: var(--font-size-lg, 18px);
+    line-height: 1.3;
+    padding-right: var(--space-md, 12px);
+  }
+
+  .crm-popup-form-actions {
+    flex-wrap: wrap;
+    gap: var(--space-sm, 8px);
+  }
+
+  .crm-popup-form-actions .btn-primary,
+  .crm-popup-form-actions .crm-ghost-button {
+    flex: 1 1 calc(50% - var(--space-sm, 8px));
+    min-width: 7.5rem;
+    justify-content: center;
+  }
+
+  .crm-table th,
+  .crm-table td {
+    padding: var(--space-sm, 8px) var(--space-md, 12px);
+  }
+
+  .crm-table {
+    font-size: var(--font-size-xs, 12px);
+  }
+
+  .crm-table-wrap {
+    max-height: min(52vh, 420px);
+  }
+
+  .crm-page--dense .crm-table-wrap {
+    max-height: min(48vh, 380px);
+  }
+
+  .crm-page-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .crm-page-toolbar__controls {
+    width: 100%;
+  }
+
+  .crm-page-toolbar .crm-search-shell {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+
+  .crm-page-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .crm-page-actions > .btn-primary,
+  .crm-page-actions > .crm-ghost-button,
+  .crm-page-actions > a.btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .crm-page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .crm-drawer {
+    padding-left: max(var(--space-xl, 24px), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--space-xl, 24px), env(safe-area-inset-right, 0px));
+    padding-bottom: max(var(--space-xl, 24px), env(safe-area-inset-bottom, 0px));
+    padding-top: max(var(--space-xl, 24px), env(safe-area-inset-top, 0px));
+  }
+
+  .crm-drawer-options-menu {
+    left: 0;
+    right: 0;
+    min-width: unset;
+  }
+
+  .crm-record-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .crm-record-actions .btn-primary,
+  .crm-record-actions .crm-ghost-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .crm-master-form {
+    grid-template-columns: 1fr;
+  }
+
+  .crm-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .crm-report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: var(--space-md, 12px);
+  }
+
+  .crm-user-chip {
+    flex-wrap: wrap;
+    row-gap: var(--space-sm, 8px);
+  }
+}
